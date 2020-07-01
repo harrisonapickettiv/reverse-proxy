@@ -1,0 +1,10 @@
+#!/bin/bash
+
+pacman --noconfirm -Syu git \
+    && git clone https://github.com/harrisonapickettiv/nginx_config.git /tmp/config \
+    && cp /tmp/config/nginx.conf /etc/nginx/nginx.conf \
+    && cp /tmp/config/{common_locations.conf,fastcgi.conf,tls.conf,cert.pem,key.pem} /opt/nginx \
+    && mkdir -p /opt/certs/secrets/ \
+    && cp /tmp/digitalocean.ini /opt/certs/secrets/digitalocean.ini \
+    && openssl dhparam -out /opt/nginx/dhparams.pem 2048 \
+;

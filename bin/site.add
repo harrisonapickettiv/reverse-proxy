@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. ../etc/env
+NGINX_CONFIG=$1;
+FILE=$(basename $1);
+
+sudo docker run --rm \
+    --volume reverse-proxy_sites:/opt/sites \
+    --volume $NGINX_CONFIG:/tmp/config/$FILE \
+    archlinux:latest \
+        cp /tmp/config/$FILE /opt/sites/ && echo "Copied config to Nginx" || exit 1 \
+&& cd $APP_ROOT && \
+sudo docker-compose exec nginx /bin/sh -c 'nginx -s reload' \
+&& echo "Nginx config reloaded successfully" || exit 1;

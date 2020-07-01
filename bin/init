@@ -1,0 +1,23 @@
+#!/bin/bash
+
+. ../etc/env
+
+sudo docker run --rm \
+    --volume reverse-proxy_nginx:/etc/nginx/:rw \
+    nginx:latest /bin/sh -c 'echo "Latest Nginx Config Copied"' \
+;
+
+sudo docker run --rm \
+    --volume reverse-proxy_certs:/etc/letsencrypt/:rw \
+    nginx:latest /bin/sh -c 'echo "Latest letsencrypt Config Copied"' \
+;
+
+sudo docker run --rm \
+    --volume reverse-proxy_nginx:/etc/nginx/:rw \
+    --volume reverse-proxy_config:/opt/nginx:rw \
+    --volume reverse-proxy_certs:/opt/certs:rw \
+    --volume reverse-proxy_sites:/opt/sites:rw \
+    --volume $APP_ROOT/etc/digitalocean.ini:/tmp/digitalocean.ini:ro \
+    --volume $APP_ROOT/etc/init:/init:ro \
+    archlinux:latest /init \
+;

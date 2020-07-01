@@ -1,0 +1,28 @@
+version: "3.8"
+
+volumes:
+  certs:
+  config:
+  sites:
+  nginx:
+
+networks:
+  network:
+
+services:
+  nginx:
+    image: nginx:latest
+    networks:
+     - network
+    ports:
+      - 443:8443
+      - 80:8080
+    restart: always
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - nginx:/etc/nginx
+      - certs:/opt/certs
+      - config:/opt/nginx
+      - sites:/opt/sites
