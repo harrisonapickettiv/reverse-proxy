@@ -1,12 +1,12 @@
 #!/bin/bash
 
 . ../etc/env
-[ -n $1 ] && DOMAIN=$1;
+[ -n ${1} ] && DOMAIN=${1};
 
 sudo docker run --rm \
-    --volume reverse-proxy_certs:/etc/letsencrypt \
+    --volume ${APP_NAME}_certs:/etc/letsencrypt \
     certbot/dns-digitalocean delete \
         --non-interactive \
-        --cert-name $DOMAIN \
+        --cert-name ${DOMAIN} \
 ;
 sudo docker rmi certbot/dns-digitalocean:latest;

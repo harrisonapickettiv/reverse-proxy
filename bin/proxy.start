@@ -1,4 +1,9 @@
 #!/bin/bash
 
+. ../etc/env
+
 cd .. && \
-sudo docker-compose up -d;
+sudo docker-compose \
+    --project-name ${APP_NAME} up \
+    --detach \
+;

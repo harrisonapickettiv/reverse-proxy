@@ -1,7 +1,7 @@
 #!/bin/bash
 
 docker run --rm \
-    --volume reverse-proxy_certs:/etc/letsencrypt \
+    --volume CERT_VOLUME_certs:/etc/letsencrypt \
     certbot/dns-digitalocean renew \
         --non-interactive \
         --server https://acme-v02.api.letsencrypt.org/directory \

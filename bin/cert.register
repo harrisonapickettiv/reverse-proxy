@@ -1,20 +1,20 @@
 #!/bin/bash
 
 . ../etc/env
-[ -n $1 ] && DOMAIN=$1;
-[ -n $2 ] && EMAIL=$2;
+[ -n ${1} ] && DOMAIN=${1};
+[ -n ${2} ] && EMAIL=${2};
 
 sudo docker run --rm \
-    --volume reverse-proxy_certs:/etc/letsencrypt \
+    --volume ${APP_NAME}_certs:/etc/letsencrypt \
     certbot/dns-digitalocean certonly \
         --non-interactive \
         --agree-tos \
-        --email $EMAIL \
+        --email ${EMAIL} \
         --server https://acme-v02.api.letsencrypt.org/directory \
         --dns-digitalocean \
         --dns-digitalocean-credentials "/etc/letsencrypt/secrets/digitalocean.ini" \
-        --domain $DOMAIN \
-        --domain *.$DOMAIN \
+        --domain ${DOMAIN} \
+        --domain *.${DOMAIN} \
 ;
 sudo docker rmi certbot/dns-digitalocean:latest;
 
