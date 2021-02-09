@@ -21,3 +21,5 @@ sudo docker run --rm \
     --volume $APP_ROOT/etc/init:/init:ro \
     archlinux:latest /init \
 ;
+
+sudo cp $APP_ROOT/etc/cert.cron /etc/cron.daily/cert.cron

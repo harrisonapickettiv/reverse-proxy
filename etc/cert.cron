@@ -1,0 +1,13 @@
+#!/bin/bash
+
+docker run --rm \
+    --volume reverse-proxy_certs:/etc/letsencrypt \
+    certbot/dns-digitalocean renew \
+        --non-interactive \
+        --server https://acme-v02.api.letsencrypt.org/directory \
+        --dns-digitalocean \
+        --dns-digitalocean-credentials "/etc/letsencrypt/secrets/digitalocean.ini" \
+;
+docker rmi certbot/dns-digitalocean:latest;
+
+# https://certbot-dns-digitalocean.readthedocs.io/en/stable/
