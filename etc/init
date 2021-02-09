@@ -6,5 +6,6 @@ pacman --noconfirm -Syu git \
     && cp /tmp/config/{common_locations.conf,fastcgi.conf,tls.conf,cert.pem,key.pem} /opt/nginx \
     && mkdir -p /opt/certs/secrets/ \
     && cp /tmp/digitalocean.ini /opt/certs/secrets/digitalocean.ini \
+    && chmod 600 /opt/certs/secrets/digitalocean.ini \
     && openssl dhparam -out /opt/nginx/dhparams.pem 2048 \
 ;
