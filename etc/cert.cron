@@ -1,13 +1,18 @@
 #!/bin/bash
 
+docker pull certbot/dns-digitalocean:latest > /dev/null;
+
 docker run --rm \
-    --volume CERT_VOLUME_certs:/etc/letsencrypt \
+    --volume APP_NAME_certs:/etc/letsencrypt \
     certbot/dns-digitalocean renew \
-        --non-interactive \
-        --server https://acme-v02.api.letsencrypt.org/directory \
         --dns-digitalocean \
         --dns-digitalocean-credentials "/etc/letsencrypt/secrets/digitalocean.ini" \
-;
-docker rmi certbot/dns-digitalocean:latest;
+        --non-interactive \
+        --server https://acme-v02.api.letsencrypt.org/directory \
+&& cd APP_ROOT && \
+docker-compose \
+    --project-name APP_NAME \
+    exec nginx /bin/sh -c 'nginx -s reload' \
+|| exit 1;
 
-# https://certbot-dns-digitalocean.readthedocs.io/en/stable/
+docker rmi certbot/dns-digitalocean:latest > /dev/null;
