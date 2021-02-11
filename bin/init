@@ -8,11 +8,6 @@ sudo docker run --rm \
 ;
 
 sudo docker run --rm \
-    --volume ${APP_NAME}_certs:/etc/letsencrypt/:rw \
-    nginx:latest /bin/sh -c 'echo "Latest letsencrypt Config Copied"' \
-;
-
-sudo docker run --rm \
     --volume ${APP_NAME}_nginx:/etc/nginx/:rw \
     --volume ${APP_NAME}_config:/opt/nginx:rw \
     --volume ${APP_NAME}_certs:/opt/certs:rw \
