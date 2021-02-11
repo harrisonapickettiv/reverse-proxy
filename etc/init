@@ -1,11 +1,17 @@
 #!/bin/bash
 
-pacman --noconfirm -Syu git \
-    && git clone https://github.com/harrisonapickettiv/nginx_config.git /tmp/config \
-    && cp /tmp/config/nginx.conf /etc/nginx/nginx.conf \
-    && cp /tmp/config/{common_locations.conf,fastcgi.conf,tls.conf,cert.pem,key.pem} /opt/nginx \
-    && mkdir -p /opt/certs/secrets/ \
-    && cp /tmp/digitalocean.ini /opt/certs/secrets/digitalocean.ini \
-    && chmod 600 /opt/certs/secrets/digitalocean.ini \
-    && openssl dhparam -out /opt/nginx/dhparams.pem 2048 \
+REPO="https://github.com/harrisonapickettiv/nginx_config.git";
+
+echo "Initializing reverse-proxy" \
+    && echo "Installing git, this may take a while" \
+        && pacman --noconfirm -Sy git > /dev/null \
+    && echo "Installing Nginx config from ${REPO}" \
+        && git clone ${REPO} /tmp/config \
+        && cp /tmp/config/nginx.conf /etc/nginx/nginx.conf \
+        && cp /tmp/config/{common_locations.conf,fastcgi.conf,tls.conf,cert.pem,key.pem} /opt/nginx \
+        && openssl dhparam -out /opt/nginx/dhparams.pem 2048 \
+    && echo "Installing certbot credentials" \
+        && mkdir -p /opt/certs/secrets/ \
+        && cp /tmp/digitalocean.ini /opt/certs/secrets/digitalocean.ini \
+        && chmod 600 /opt/certs/secrets/digitalocean.ini \
 ;
