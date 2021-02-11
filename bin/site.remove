@@ -1,12 +1,10 @@
 #!/bin/bash
 
 . ../etc/env
-NGINX_CONFIG=${1};
-FILE=$(basename ${1});
+FILE=${1};
 
 sudo docker run --rm \
     --volume ${APP_NAME}_sites:/opt/sites \
-    --volume ${NGINX_CONFIG}:/tmp/config/${FILE} \
     archlinux:latest \
         rm -f /opt/sites/${FILE} && echo "Removed ${FILE} from Nginx config" || exit 1 \
 && cd ${APP_ROOT} && \
