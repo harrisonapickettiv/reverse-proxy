@@ -1,12 +1,21 @@
 #!/bin/bash
 
 . ../etc/env
-[ -n ${1} ] && DOMAIN=${1};
+[ -n ${1} ] && CERT_NAME=${1};
+
+echo "Pulling new certbot image." \
+    && sudo docker pull certbot/dns-digitalocean:latest > /dev/null;
 
 sudo docker run --rm \
     --volume ${APP_NAME}_certs:/etc/letsencrypt \
     certbot/dns-digitalocean delete \
+        --cert-name ${CERT_NAME} \
         --non-interactive \
-        --cert-name ${DOMAIN} \
-;
-sudo docker rmi certbot/dns-digitalocean:latest;
+&& cd ${APP_ROOT} && \
+sudo docker-compose \
+    --project-name ${APP_NAME} \
+    exec nginx /bin/sh -c 'nginx -s reload' \
+&& echo "Nginx config reloaded successfully" || exit 1;
+
+echo "Cleaning up docker images." \
+    && sudo docker rmi certbot/dns-digitalocean:latest > /dev/null;
