@@ -1,0 +1,25 @@
+#!/bin/bash
+
+. ../etc/env
+[ -n ${1} ] && CERT_NAME=${1};
+
+echo "Pulling new certbot image." \
+    && sudo docker pull certbot/dns-digitalocean:latest > /dev/null;
+
+sudo docker run --rm \
+    --volume ${APP_NAME}_certs:/etc/letsencrypt \
+    certbot/dns-digitalocean renew \
+        --cert-name ${CERT_NAME} \
+        --dns-digitalocean \
+        --dns-digitalocean-credentials "/etc/letsencrypt/secrets/digitalocean.ini" \
+        --force-renewal \
+        --non-interactive \
+        --server https://acme-v02.api.letsencrypt.org/directory \
+&& cd ${APP_ROOT} && \
+sudo docker-compose \
+    --project-name ${APP_NAME} \
+    exec nginx /bin/sh -c 'nginx -s reload' \
+&& echo "Nginx config reloaded successfully" || exit 1;
+
+echo "Cleaning up docker images." \
+    && sudo docker rmi certbot/dns-digitalocean:latest > /dev/null;
