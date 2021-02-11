@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. ../etc/env
+[ -n ${1} ] && CERT_NAME=${1};
+
+echo "Pulling new certbot image." \
+    && sudo docker pull certbot/dns-digitalocean:latest > /dev/null;
+
+sudo docker run --rm \
+    --volume ${APP_NAME}_certs:/etc/letsencrypt \
+    certbot/dns-digitalocean certificates \
+        --cert-name ${CERT_NAME} \
+;
+
+echo "Cleaning up docker images." \
+    && sudo docker rmi certbot/dns-digitalocean:latest > /dev/null;

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+. ../etc/env
+
+sudo docker run --rm \
+    --volume ${APP_NAME}_certs:/opt/certs \
+    archlinux:latest ls \
+        --ignore README \
+        /opt/certs/live \
+;
