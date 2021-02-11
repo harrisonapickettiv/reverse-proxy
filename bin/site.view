@@ -1,0 +1,9 @@
+#!/bin/bash
+
+. ../etc/env
+FILE=${1};
+
+sudo docker run --rm \
+    --volume ${APP_NAME}_sites:/opt/sites \
+    archlinux:latest cat /opt/sites/${FILE} \
+;
