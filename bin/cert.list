@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../etc/env
+. $(dirname $(realpath -s $0))/../etc/env;
 
 sudo docker run --rm \
     --volume ${APP_NAME}_certs:/opt/certs \

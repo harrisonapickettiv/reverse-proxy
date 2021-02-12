@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../etc/env
+. $(dirname $(realpath -s $0))/../etc/env;
 [ -n ${1} ] && CERT_NAME=${1};
 [ -n ${1} ] && DOMAINS=${2};
 [ -n ${2} ] && EMAIL=${3};

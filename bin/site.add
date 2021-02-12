@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../etc/env
+. $(dirname $(realpath -s $0))/../etc/env;
 NGINX_CONFIG=${1};
 FILE=$(basename ${1});
 

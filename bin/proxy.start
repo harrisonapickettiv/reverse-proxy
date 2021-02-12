@@ -1,8 +1,8 @@
 #!/bin/bash
 
-. ../etc/env
+. $(dirname $(realpath -s $0))/../etc/env;
 
-cd .. && \
+cd ${APP_ROOT} && \
 sudo docker-compose \
     --project-name ${APP_NAME} up \
     --detach \
