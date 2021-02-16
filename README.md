@@ -3,11 +3,12 @@
 A reverse proxy into your docker environment.
 
 ## Installing
-To install, first pull this repo to the location that best suits your environment. Maybe `/opt/reverse-proxy`.
-
-Next, copy `etc/env.example` to `etc/env` and update with the details from your environment. Likewise copy `etc/digitalocean.ini.example` to `etc/digitalocean.ini` and update with your Digital Ocean API token.
-
-Finally, run `./init` from within `bin/`.
+To install: 
+- Ensure that docker, docker-compose, and cron are installed on the host.
+- Pull this repo to the location that best suits your environment. Maybe `/opt/reverse-proxy`.
+- Copy `etc/env.example` to `etc/env` and update with the details from your environment. 
+- Copy `etc/digitalocean.ini.example` to `etc/digitalocean.ini` and update with your Digital Ocean API token.
+- Run `./init` from within `bin/`.
 
 ## Usage
 ### proxy.start
