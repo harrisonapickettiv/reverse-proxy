@@ -1,0 +1,13 @@
+#!/bin/bash
+
+. $(dirname $(realpath -s $0))/../etc/env;
+
+echo "Installing certbot renew cron job" \
+    && sed 's|APP_ROOT|'${APP_ROOT}'|g' ${APP_ROOT}/etc/cert.cron > /tmp/cert.cron \
+    && sed -i 's|APP_NAME|'${APP_NAME}'|g' /tmp/cert.cron \
+    && sudo sh -c '\
+        chown root:root /tmp/cert.cron && \
+        chmod 700 /tmp/cert.cron && \
+        mv /tmp/cert.cron /etc/cron.daily/ \
+    ' \
+;
